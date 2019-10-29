@@ -8,7 +8,7 @@ namespace CezarLib
 {
     public class CezarEncryptor
     {
-        List<CharMap> charMapList = new List<CharMap>()
+        public List<CharMap> charMapList = new List<CharMap>()
         {
             new CharMap(){CharValue = 'A' ,NumberValue = 1},
             new CharMap(){CharValue = 'B' ,NumberValue = 2},
@@ -50,6 +50,11 @@ namespace CezarLib
             turkish = new CultureInfo("tr-TR", false);
         }
 
+
+        public void SetKeyWord(string key)
+        {
+            keyword = key;
+        }
 
         public string EncryptLine(string toEncrypt)
         {

@@ -1,0 +1,54 @@
+﻿<Window x:Class="CezarUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CezarUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <TabControl>
+        <TabItem x:Name="EncryptTab" Header="Encrypt">
+
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Parameters" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="50" Margin="0,0,0,0">
+                    <Grid>
+                        <Label Content="Keyword" Width="560" HorizontalAlignment="Left"></Label>
+                        <TextBox x:Name="txtKeyword" Height="25" Margin="60,0,0,0" Width="150" HorizontalAlignment="Left" Text="1"></TextBox>
+                        <Button x:Name="btnEncrypt" Margin="220,0,0,0" Width="65" Content="Encrypt" HorizontalAlignment="Left" Click="btnEncrypt_Click"></Button>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Input" Grid.Column="0" Margin="0,55,0,0">
+                    <TextBox x:Name="txtInput" Margin="0,0,0,0"></TextBox>
+                </GroupBox>
+                <GroupBox Header="Output" Grid.Column="1" Margin="0,55,0,0">
+                    <TextBox x:Name="txtOutput" Margin="0,0,0,0"></TextBox>
+                </GroupBox>
+
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="CharMapTab" Header="Character Mappings">
+            <Grid Background="#FFE5E5E5">
+
+                <DataGrid x:Name="CharMapGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="0,50,0,0" CellEditEnding="CharMapGrid_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn CanUserResize="False" Header="Original Char" Binding="{Binding CharValue}"/>
+                        <DataGridTextColumn CanUserResize="False" Header="Mapped Char" Binding="{Binding NumberValue}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <GroupBox Header="GroupBox" Height="50" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Grid>
+                        <TextBox x:Name="TxtMappedChar" HorizontalAlignment="Left" Height="25" Margin="5,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="50"/>
+                        <TextBox x:Name="TxtMappedVal" HorizontalAlignment="Left" Height="25" Margin="60,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="50"/>
+                        <Button x:Name="BtnSaveCharMap" Content="Save" HorizontalAlignment="Left" Height="25" Margin="115,0,0,0" VerticalAlignment="Center" Width="50" Click="BtnSaveCharMap_Click"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
+</Window>

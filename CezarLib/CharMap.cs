@@ -1,6 +1,6 @@
 namespace CezarLib
 {
-    public struct CharMap
+    public class CharMap
     {
         public char CharValue { get; set; }
         public int NumberValue { get; set; }
