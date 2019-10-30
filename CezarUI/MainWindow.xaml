@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CezarUI"
         xmlns:CezarLib="clr-namespace:CezarLib;assembly=CezarLib" x:Class="CezarUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Caesar Encoder" Height="450" Width="800">
     <TabControl>
         <TabItem x:Name="EncryptTab" Header="Encrypt">
 
@@ -34,10 +34,10 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Input" Grid.Column="0" Margin="0,55,0,0">
-                    <TextBox x:Name="txtInput" Margin="0,0,0,0"/>
+                    <TextBox x:Name="txtInput" Text="Sorunun tam olarak ne olduğunu bildiğiniz zaman, cevabın ne anlama geldiğini de anlayacaksınız" TextWrapping="WrapWithOverflow" Margin="0,0,0,0"/>
                 </GroupBox>
                 <GroupBox Header="Output" Grid.Column="1" Margin="0,55,0,0">
-                    <TextBox x:Name="txtOutput" Margin="0,0,0,0"/>
+                    <TextBox x:Name="txtOutput" Margin="0,0,0,0" TextWrapping="WrapWithOverflow" IsReadOnly="True"/>
                 </GroupBox>
 
             </Grid>
