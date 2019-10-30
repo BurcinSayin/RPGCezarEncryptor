@@ -6,6 +6,12 @@ using System.Text;
 
 namespace CezarLib
 {
+    public enum KeywordType
+    {
+        Word,
+        Number
+    }
+    
     public class CezarEncryptor
     {
         public List<CharMap> charMapList = new List<CharMap>()
@@ -42,18 +48,21 @@ namespace CezarLib
         };
         
         private string keyword { get; set; }
-        private CultureInfo turkish { get; set; }
+        private KeywordType keyType { get; set; }
+        private CultureInfo encCulture { get; set; }
 
-        public CezarEncryptor(string key)
+        public CezarEncryptor()
         {
-            keyword = key;
-            turkish = new CultureInfo("tr-TR", false);
+            keyword = "0";
+            keyType = KeywordType.Number;
+            encCulture = new CultureInfo("tr-TR", false);
         }
 
 
-        public void SetKeyWord(string key)
+        public void SetKeyWord(string key,KeywordType type)
         {
             keyword = key;
+            keyType = type;
         }
 
         public string EncryptLine(string toEncrypt)
@@ -62,7 +71,7 @@ namespace CezarLib
 
             int keyIndex = 0;
             
-            foreach (var letter in toEncrypt.ToUpper(turkish).ToCharArray())
+            foreach (var letter in toEncrypt.ToUpper(encCulture).ToCharArray())
             {
                 retVal += EncryptLetter(letter, keyword[keyIndex]);
                 keyIndex = (keyIndex + 1) % keyword.Length;
@@ -73,15 +82,27 @@ namespace CezarLib
 
         private string EncryptLetter(char letter,char keyLetter)
         {
-            if (letter == ' ')
+            var currentVal = charMapList.FirstOrDefault(m => m.CharValue == letter);
+
+            if (currentVal == null)
             {
-                return " ";
+                return letter.ToString();
             }
-            
-            var currentVal = charMapList.First(m => m.CharValue == letter);
 
             var keyVal = 0;
-            int.TryParse(keyLetter.ToString(), out keyVal);
+            if (keyType == KeywordType.Number)
+            {
+                int.TryParse(keyLetter.ToString(), out keyVal);
+            }
+            else
+            {
+                var keyCharMap = charMapList.FirstOrDefault(m => m.CharValue == keyLetter);
+                if (keyCharMap != null)
+                {
+                    keyVal = keyCharMap.NumberValue;
+                }
+            }
+            
 
             int total = (keyVal + currentVal.NumberValue) % 29;
             if (total == 0)
@@ -97,7 +118,7 @@ namespace CezarLib
 
         public string EmbedText(string toEmbed, string targetString)
         {
-            string searchString = targetString.ToUpper(turkish);
+            string searchString = targetString.ToUpper(encCulture);
 
 
             Dictionary<int,char> indexList = new Dictionary<int, char>();
@@ -119,7 +140,7 @@ namespace CezarLib
                     builder.Remove(foundIndex, 1);
                     builder.Insert(foundIndex, string.Format("|{0}|", letter));
 
-                    searchString = builder.ToString().ToUpper(turkish);
+                    searchString = builder.ToString().ToUpper(encCulture);
                 }
                 else
                 {
@@ -129,6 +150,39 @@ namespace CezarLib
 
 
             return builder.ToString();
+        }
+
+        public string GetAlphabet()
+        {
+            return string.Join(",", this.charMapList.Select(cm => cm.CharValue));
+        }
+
+        public void SetAlphabet(string alphabetString, CultureInfo cultureInfo)
+        {
+            var splitAlphabet = alphabetString.ToUpper(cultureInfo).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+
+            var filtered = splitAlphabet.Where(c => c.Length == 1).Distinct().ToList();
+
+            if (filtered.Any())
+            {
+                List<CharMap> alphabetMap = new List<CharMap>();
+                int index = 1;
+                foreach (string s in filtered)
+                {
+                    alphabetMap.Add(new CharMap()
+                    {
+                        CharValue = Convert.ToChar(s),
+                        NumberValue = index
+                    });
+                    
+                    index++;
+                }
+
+                charMapList = alphabetMap;
+            }
+
+            
+
         }
     }
 }

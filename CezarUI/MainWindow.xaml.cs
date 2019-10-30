@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CezarLib;
 
 namespace CezarUI
 {
@@ -21,10 +22,13 @@ namespace CezarUI
     public partial class MainWindow : Window
     {
         private CezarLib.CezarEncryptor encryptor;
+
+        private List<KeywordType> keywordTypes = new List<KeywordType>() { KeywordType.Number, KeywordType.Word };
+
         public MainWindow()
         {
             InitializeComponent();
-            encryptor = new CezarLib.CezarEncryptor("0");
+            encryptor = new CezarLib.CezarEncryptor();
 
             InitCharMapTab();
         }
@@ -33,53 +37,32 @@ namespace CezarUI
         {
             //encryptor.charMapList;
 
+
+            //cmbKeywordType.DataContext = keywordTypes;
+            txtAlphabet.Text = encryptor.GetAlphabet();
+
             CharMapGrid.DataContext = encryptor.charMapList;
         }
 
         private void BtnSaveCharMap_Click(object sender, RoutedEventArgs e)
         {
-            string trimmedVal = TxtMappedChar.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(trimmedVal) && trimmedVal.Length == 1)
+            string alphabetString = txtAlphabet.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(alphabetString))
             {
-                char charVal = trimmedVal.ToCharArray()[0];
-                int numVal;
-                if (int.TryParse(TxtMappedVal.Text, out numVal))
-                {
-                    bool charPresent = encryptor.charMapList.Any(m => m.CharValue == charVal);
-                    bool numPresent = encryptor.charMapList.Any(m => m.NumberValue == numVal);
-
-                    if(!charPresent && !numPresent)
-                    {
-                        encryptor.charMapList.Add(new CezarLib.CharMap
-                        {
-                            CharValue=charVal,
-                            NumberValue=numVal
-                        });
-
-                        encryptor.charMapList = encryptor.charMapList.OrderBy(m=>m.CharValue).ToList();
-
-                        TxtMappedChar.Text = string.Empty;
-                        TxtMappedVal.Text = string.Empty;
-                    }
-
-                    CollectionViewSource.GetDefaultView(CharMapGrid.ItemsSource).Refresh();
-
-                }
+                encryptor.SetAlphabet(alphabetString, new System.Globalization.CultureInfo("tr-tr", false));
+                //CollectionViewSource.GetDefaultView(CharMapGrid.ItemsSource).Refresh();
+                CharMapGrid.DataContext = encryptor.charMapList;
+                CollectionViewSource.GetDefaultView(CharMapGrid.ItemsSource).Refresh();
             }
+
         }
 
         private void CharMapGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CharMapGrid.SelectedItem != null)
-            {
-                var targetMap = (CezarLib.CharMap)CharMapGrid.SelectedItem;
 
-                TxtMappedChar.Text = targetMap.CharValue.ToString();
-                TxtMappedVal.Text = targetMap.NumberValue.ToString();
-            }
         }
 
-        private void CharMapGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        /*private void CharMapGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
@@ -117,8 +100,7 @@ namespace CezarUI
 
                 }
             }
-            //CollectionViewSource.GetDefaultView(CharMapGrid.ItemsSource).Refresh();
-        }
+        }*/
 
         private void btnEncrypt_Click(object sender, RoutedEventArgs e)
         {
@@ -128,9 +110,9 @@ namespace CezarUI
                 string key = txtKeyword.Text.Trim();
                 if (!string.IsNullOrWhiteSpace(key))
                 {
-                    encryptor.SetKeyWord(key);
+                    encryptor.SetKeyWord(key, (KeywordType)cmbKeywordType.SelectedItem);
                 }
-                
+
                 string encoded = encryptor.EncryptLine(sourceText);
                 txtOutput.Text = encoded;
             }
