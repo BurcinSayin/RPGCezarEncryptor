@@ -1,5 +1,5 @@
 Hazine avları için geçmiş bir tarihde yazmış olduğum şifreleme programı.  Öğrenme amaçlı .Net Core ile yazdığım için dosya boyutu oldukça büyük oldu.
-Şu anda sürü ile eksigi var ve sadece türkçe karakter desteği var. İşe Cezar sifresi yapacam diye başlamış olmama rağmen şu anda daha çok [Vigenère Şifresi](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) gibi çalışıyor. En son halini [releases](releases/) alanından indirebilirsiniz.
+Şu anda sürü ile eksigi var ve sadece türkçe karakter desteği var. İşe Cezar sifresi yapacam diye başlamış olmama rağmen şu anda daha çok [Vigenère Şifresi](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) gibi çalışıyor. En son halini [releases](../../releases/) alanından indirebilirsiniz.
 
 Kullanımı:
 
