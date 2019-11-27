@@ -73,8 +73,16 @@ namespace CezarLib
             
             foreach (var letter in toEncrypt.ToUpper(encCulture).ToCharArray())
             {
-                retVal += EncryptLetter(letter, keyword[keyIndex]);
-                keyIndex = (keyIndex + 1) % keyword.Length;
+                if (!char.IsWhiteSpace(letter))
+                {
+                    retVal += EncryptLetter(letter, keyword[keyIndex]);
+                    keyIndex = (keyIndex + 1) % keyword.Length;
+                }
+                else
+                {
+                    retVal += letter;
+                }
+                
             }
 
             return retVal;
@@ -88,8 +96,16 @@ namespace CezarLib
             
             foreach (var letter in toDecrypt.ToUpper(encCulture).ToCharArray())
             {
-                retVal += DecryptLetter(letter, keyword[keyIndex]);
-                keyIndex = (keyIndex + 1) % keyword.Length;
+                if (!char.IsWhiteSpace(letter))
+                {
+                    retVal += DecryptLetter(letter, keyword[keyIndex]);
+                    keyIndex = (keyIndex + 1) % keyword.Length;
+                }
+                else
+                {
+                    retVal += letter;
+                }
+                
             }
 
             return retVal;

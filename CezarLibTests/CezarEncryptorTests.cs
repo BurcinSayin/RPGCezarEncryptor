@@ -22,6 +22,17 @@ namespace CezarLibTests
         }
         
         [Test]
+        public void EncryptLine_NumberKey_SkipWhiteSpace()
+        {
+            CezarLib.CezarEncryptor toTest = new CezarEncryptor();
+            toTest.SetKeyWord("42",KeywordType.Number);
+
+            var res = toTest.EncryptLine("Kule S");
+
+            Assert.AreEqual("OVÖG Ü", res);
+        }
+        
+        [Test]
         public void EncryptLine_WordKey_ReturnPredefined()
         {
             CezarLib.CezarEncryptor toTest = new CezarEncryptor();
@@ -53,6 +64,17 @@ namespace CezarLibTests
             var res = toTest.DecryptLine("BCÇEA");
 
             Assert.AreEqual("ABCDZ", res);
+        }
+        
+        [Test]
+        public void DecryptLine_NumberKey_SkipWhitespace()
+        {
+            CezarLib.CezarEncryptor toTest = new CezarEncryptor();
+            toTest.SetKeyWord("42",KeywordType.Number);
+
+            var res = toTest.DecryptLine("OVÖG ÜCOKRNHŞM");
+
+            Assert.AreEqual("KULE SAKİNLERİ", res);
         }
         
         [Test]
