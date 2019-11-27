@@ -45,6 +45,40 @@ namespace CezarLibTests
 
 
         [Test]
+        public void DecryptLine_NumberKey_ReturnPredefined()
+        {
+            CezarLib.CezarEncryptor toTest = new CezarEncryptor();
+            toTest.SetKeyWord("1",KeywordType.Number);
+
+            var res = toTest.DecryptLine("BCÇEA");
+
+            Assert.AreEqual("ABCDZ", res);
+        }
+        
+        [Test]
+        public void DecryptLine_WordKey_ReturnPredefined()
+        {
+            CezarLib.CezarEncryptor toTest = new CezarEncryptor();
+            toTest.SetKeyWord("A",KeywordType.Word);
+
+            var res = toTest.DecryptLine("BCÇEA");
+
+            Assert.AreEqual("ABCDZ", res);
+        }
+
+        [Test]
+        public void DecryptLine_EmptyText_ReturnNotEnrypted()
+        {
+            CezarLib.CezarEncryptor toTest = new CezarEncryptor();
+            toTest.SetKeyWord("1",KeywordType.Number);
+
+            var res = toTest.DecryptLine("!     ");
+
+            Assert.AreEqual("!     ", res);
+        }
+
+        
+        [Test]
         public void EncryptLineTest_UpperLowerText_EncryptionShouldMatch()
         {
             CezarLib.CezarEncryptor toTest = new CezarEncryptor();

@@ -79,6 +79,21 @@ namespace CezarLib
 
             return retVal;
         }
+        
+        public string DecryptLine(string toDecrypt)
+        {
+            string retVal = string.Empty;
+
+            int keyIndex = 0;
+            
+            foreach (var letter in toDecrypt.ToUpper(encCulture).ToCharArray())
+            {
+                retVal += DecryptLetter(letter, keyword[keyIndex]);
+                keyIndex = (keyIndex + 1) % keyword.Length;
+            }
+
+            return retVal;
+        }
 
         private string EncryptLetter(char letter,char keyLetter)
         {
@@ -103,11 +118,49 @@ namespace CezarLib
                 }
             }
             
-
-            int total = (keyVal + currentVal.NumberValue) % 29;
+            int charCount = charMapList.Count;
+            int total = (keyVal + currentVal.NumberValue) % charCount;
             if (total == 0)
             {
-                total = 29;
+                total = charCount;
+            }
+
+            var encryptedVal = charMapList.First(m => m.NumberValue == total);
+
+            return encryptedVal.CharValue.ToString();
+
+        }
+        
+        private string DecryptLetter(char letter,char keyLetter)
+        {
+            var currentVal = charMapList.FirstOrDefault(m => m.CharValue == letter);
+
+            if (currentVal == null)
+            {
+                return letter.ToString();
+            }
+
+            var keyVal = 0;
+            if (keyType == KeywordType.Number)
+            {
+                int.TryParse(keyLetter.ToString(), out keyVal);
+            }
+            else
+            {
+                var keyCharMap = charMapList.FirstOrDefault(m => m.CharValue == keyLetter);
+                if (keyCharMap != null)
+                {
+                    keyVal = keyCharMap.NumberValue;
+                }
+            }
+
+
+            int charCount = charMapList.Count;
+            
+            int total = (currentVal.NumberValue - keyVal  ) % charCount;
+            if (total == 0)
+            {
+                total = charCount;
             }
 
             var encryptedVal = charMapList.First(m => m.NumberValue == total);
@@ -151,6 +204,8 @@ namespace CezarLib
 
             return builder.ToString();
         }
+
+        
 
         public string GetAlphabet()
         {

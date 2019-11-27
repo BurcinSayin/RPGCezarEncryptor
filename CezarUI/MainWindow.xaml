@@ -42,6 +42,40 @@
 
             </Grid>
         </TabItem>
+        <TabItem x:Name="DecryptTab" Header="Decrypt">
+
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Parameters" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="50" Margin="0,0,0,0">
+                    <Grid>
+                        <Label Content="Keyword" Width="560" HorizontalAlignment="Left"/>
+                        <TextBox x:Name="txtDecryptKeyword" Height="25" Margin="60,0,0,0" Width="150" HorizontalAlignment="Left" Text="1"/>
+                        <ComboBox x:Name="cmbDecryptKeywordType" Height="25" Margin="215,0,0,0" Width="100" HorizontalAlignment="Left" SelectedIndex="0">
+
+
+
+                            <CezarLib:KeywordType>Number</CezarLib:KeywordType>
+                            <CezarLib:KeywordType>Word</CezarLib:KeywordType>
+
+
+
+                        </ComboBox>
+                        <Button x:Name="btnDecryptEncrypt" Margin="320,0,0,0" Width="65" Content="Decrypt" HorizontalAlignment="Left" Click="btnDecrypt_Click"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Input" Grid.Column="0" Margin="0,55,0,0">
+                    <TextBox x:Name="txtDecryptInput" Text="ŞÖSÜOÜO UBN ÖMBSBL OF ÖMEÜHÜOÜ CJMEJHJOJA ABNBO, ÇFYBCİO OF BOMBNB ĞFMEJHJOJ EF BOMBZBÇBLŞİOİA" TextWrapping="WrapWithOverflow" Margin="0,0,0,0"/>
+                </GroupBox>
+                <GroupBox Header="Output" Grid.Column="1" Margin="0,55,0,0">
+                    <TextBox x:Name="txtDecryptOutput" Margin="0,0,0,0" TextWrapping="WrapWithOverflow" IsReadOnly="True"/>
+                </GroupBox>
+
+            </Grid>
+        </TabItem>
         <TabItem x:Name="CharMapTab" Header="Character Mappings">
             <Grid Background="#FFE5E5E5">
                 <GroupBox Header="Alphabet" Height="50" VerticalAlignment="Top" Margin="0,0,0,0">

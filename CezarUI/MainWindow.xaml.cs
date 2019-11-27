@@ -119,5 +119,23 @@ namespace CezarUI
 
 
         }
+
+        private void btnDecrypt_Click(object sender, RoutedEventArgs e)
+        {
+            string sourceText = txtDecryptInput.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(sourceText))
+            {
+                string key = txtDecryptKeyword.Text.Trim();
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    encryptor.SetKeyWord(key, (KeywordType)cmbDecryptKeywordType.SelectedItem);
+                }
+
+                string decrypted = encryptor.DecryptLine(sourceText);
+                txtDecryptOutput.Text = decrypted;
+            }
+
+
+        }
     }
 }
